@@ -1,0 +1,522 @@
+General Overview
+
+The three programs presented on this disk generate Huffman codes from a list of
+probabilities. The general version takes as part of its input the radix which
+will be used for the code. The binary and ternary versions assume radices of 
+2 and 3 respectively. They are included mainly since I did them first and had
+them already. I also felt that someone trying to read this code may get some 
+insight by comparing the different versions.
+
+The operation of the programs is fairly simple and does not require any real 
+understanding of the way they work. The programs take in a list of 
+probabilities and put out a list of codes associated with the probabilities. 
+The input probabilities are displayed in the order which they are read in.
+
+Any of the programs can independantly use either a file or the console for
+both the input and the output. If no command line parameters are given then
+the user will be prompted for an input filename. If "con" is entered the 
+user will be prompted for the desired values (first n, the number of words, 
+and then each of the probabilities respectively). If a filename is entered
+then the input will be taken from that file. In the general program the 
+radix must precede the word count thus:
+
+d n prob1 prob2 prob3 .... probn
+
+where d is the radix, n is the word count and probX is the probability
+associated with X. The d,n and probs can also be on different lines. 
+The input file format for the binary and ternary version is the same except
+that the radix (d) is excluded.
+
+Note: The sum of probabilities does not have to be 1. If the sum of the input
+			probabilities is not 1 then the program will divide all the input 
+			probabilities by the sum to adjust the value. This allows you use 
+			frequency counts or percentages as input if desired. If an adjustment is
+			made a message will appear on the screen displaying the sum and 
+			indicating that it has been adjusted (to make input errors more obvious).
+
+The input filename can also be entered from the command line thus:
+
+A>huffgen datafile.txt
+
+This will stop the program from prompting for a filename.
+
+Output Description
+
+The output of the programs are normally just the resulting table of 
+probabilities with the generated code words. However, command line parameters 
+can be used to cause intermediate results to be produced. Here are examples of
+possible outputs:
+
+Normal Output (Binary version, Homework Problem):
+
+Word ³ Probability ³ Code
+   1 ³ 0.2         ³ 10
+   2 ³ 0.18        ³ 000
+   3 ³ 0.1         ³ 011
+   4 ³ 0.1         ³ 110
+   5 ³ 0.1         ³ 111
+   6 ³ 0.061       ³ 0101
+   7 ³ 0.059       ³ 00100
+   8 ³ 0.04        ³ 00101
+   9 ³ 0.04        ³ 01000
+  10 ³ 0.04        ³ 01001
+  11 ³ 0.04        ³ 00110
+  12 ³ 0.03        ³ 001110
+  13 ³ 0.01        ³ 001111
+
+          The entropy [H(x)] is : 3.354537
+The weighted average [n bar] is : 3.419
+
+This output is always included but two possible command line parameters can
+be used to cause some intermediate steps to be displayed. If a "-V" is on 
+the command line then the following is displayed:
+
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.01  ³ 13 
+   2 ³ 0.03  ³ 12 
+   3 ³ 0.04  ³ 11 
+   4 ³ 0.04  ³ 10 
+   5 ³ 0.04  ³ 9 
+   6 ³ 0.04  ³ 8 
+   7 ³ 0.059 ³ 7 
+   8 ³ 0.061 ³ 6 
+   9 ³ 0.1   ³ 5 
+  10 ³ 0.1   ³ 4 
+  11 ³ 0.1   ³ 3 
+  12 ³ 0.18  ³ 2 
+  13 ³ 0.2   ³ 1 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.04  ³ 12 13 
+   2 ³ 0.04  ³ 11 
+   3 ³ 0.04  ³ 10 
+   4 ³ 0.04  ³ 9 
+   5 ³ 0.04  ³ 8 
+   6 ³ 0.059 ³ 7 
+   7 ³ 0.061 ³ 6 
+   8 ³ 0.1   ³ 5 
+   9 ³ 0.1   ³ 4 
+  10 ³ 0.1   ³ 3 
+  11 ³ 0.18  ³ 2 
+  12 ³ 0.2   ³ 1 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.04  ³ 10 
+   2 ³ 0.04  ³ 9 
+   3 ³ 0.04  ³ 8 
+   4 ³ 0.059 ³ 7 
+   5 ³ 0.061 ³ 6 
+   6 ³ 0.08  ³ 11 12 13 
+   7 ³ 0.1   ³ 5 
+   8 ³ 0.1   ³ 4 
+   9 ³ 0.1   ³ 3 
+  10 ³ 0.18  ³ 2 
+  11 ³ 0.2   ³ 1 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.04  ³ 8 
+   2 ³ 0.059 ³ 7 
+   3 ³ 0.061 ³ 6 
+   4 ³ 0.08  ³ 9 10 
+   5 ³ 0.08  ³ 11 12 13 
+   6 ³ 0.1   ³ 5 
+   7 ³ 0.1   ³ 4 
+   8 ³ 0.1   ³ 3 
+   9 ³ 0.18  ³ 2 
+  10 ³ 0.2   ³ 1 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.061 ³ 6 
+   2 ³ 0.08  ³ 9 10 
+   3 ³ 0.08  ³ 11 12 13 
+   4 ³ 0.099 ³ 7 8 
+   5 ³ 0.1   ³ 5 
+   6 ³ 0.1   ³ 4 
+   7 ³ 0.1   ³ 3 
+   8 ³ 0.18  ³ 2 
+   9 ³ 0.2   ³ 1 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.08  ³ 11 12 13 
+   2 ³ 0.099 ³ 7 8 
+   3 ³ 0.1   ³ 5 
+   4 ³ 0.1   ³ 4 
+   5 ³ 0.1   ³ 3 
+   6 ³ 0.141 ³ 9 10 6 
+   7 ³ 0.18  ³ 2 
+   8 ³ 0.2   ³ 1 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.1   ³ 5 
+   2 ³ 0.1   ³ 4 
+   3 ³ 0.1   ³ 3 
+   4 ³ 0.141 ³ 9 10 6 
+   5 ³ 0.179 ³ 7 8 11 12 13 
+   6 ³ 0.18  ³ 2 
+   7 ³ 0.2   ³ 1 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.1   ³ 3 
+   2 ³ 0.141 ³ 9 10 6 
+   3 ³ 0.179 ³ 7 8 11 12 13 
+   4 ³ 0.18  ³ 2 
+   5 ³ 0.2   ³ 4 5 
+   6 ³ 0.2   ³ 1 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.179 ³ 7 8 11 12 13 
+   2 ³ 0.18  ³ 2 
+   3 ³ 0.2   ³ 4 5 
+   4 ³ 0.2   ³ 1 
+   5 ³ 0.241 ³ 9 10 6 3 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.2   ³ 4 5 
+   2 ³ 0.2   ³ 1 
+   3 ³ 0.241 ³ 9 10 6 3 
+   4 ³ 0.359 ³ 2 7 8 11 12 13 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.241 ³ 9 10 6 3 
+   2 ³ 0.359 ³ 2 7 8 11 12 13 
+   3 ³ 0.4   ³ 1 4 5 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.4   ³ 1 4 5 
+   2 ³ 0.6   ³ 2 7 8 11 12 13 9 10 6 3 
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 1     ³ 2 7 8 11 12 13 9 10 6 3 1 4 5 
+
+Word ³ Probability ³ Code
+   1 ³ 0.2         ³ 10
+   2 ³ 0.18        ³ 000
+   3 ³ 0.1         ³ 011
+   4 ³ 0.1         ³ 110
+   5 ³ 0.1         ³ 111
+   6 ³ 0.061       ³ 0101
+   7 ³ 0.059       ³ 00100
+   8 ³ 0.04        ³ 00101
+   9 ³ 0.04        ³ 01000
+  10 ³ 0.04        ³ 01001
+  11 ³ 0.04        ³ 00110
+  12 ³ 0.03        ³ 001110
+  13 ³ 0.01        ³ 001111
+
+          The entropy [H(x)] is : 3.354537
+The weighted average [n bar] is : 3.419
+
+This will require a partial explanation of the algorithm itself. The program 
+uses a list of ITEMs (or nodes) that represent one or more code words. 
+Initially, each ITEM represents one code word. Each iteration the least 
+probable ITEMs are combined and the replaced with an ITEM that represents the 
+union of all the ITEMs used to create it. The "-V" option displays the ITEM 
+numbers on the left, the probabilites (sum of all code words represented by 
+this ITEM) and a list of the code words that this item represents on the right.
+
+The other output option is even more verbose. For the sake of brevity I will
+include an example of only one iteration of it.
+
+ÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+Item ³ Prob. ³ Words
+   1 ³ 0.179 ³ 7 8 11 12 13 
+     word -    7 ³ 0.059       ³ 00
+     word -    8 ³ 0.04        ³ 01
+     word -   11 ³ 0.04        ³ 10
+     word -   12 ³ 0.03        ³ 110
+     word -   13 ³ 0.01        ³ 111
+   2 ³ 0.18  ³ 2 
+     word -    2 ³ 0.18        ³ 
+   3 ³ 0.2   ³ 4 5 
+     word -    4 ³ 0.1         ³ 0
+     word -    5 ³ 0.1         ³ 1
+   4 ³ 0.2   ³ 1 
+     word -    1 ³ 0.2         ³ 
+   5 ³ 0.241 ³ 9 10 6 3 
+     word -    9 ³ 0.04        ³ 000
+     word -   10 ³ 0.04        ³ 001
+     word -    6 ³ 0.061       ³ 01
+     word -    3 ³ 0.1         ³ 1
+
+This form is similar to the "-V" form except that each word is also displayed
+seperately. The partial codewords are displayed on the right. Unlike most 
+"by hand" techniques for generating Huffman codes this program builds the 
+code words as the ITEMs are combined. When two (or more) ITEMs are combined 
+then a code digit is added on the left side of each code word. When only one 
+ITEM is left then the codes are complete.
+
+Any of these outputs can easily be directed to disk by placing a filename
+preceded by a "/" on the command line. Example:
+
+A>huffmin input.txt /output.txt -V
+
+This would take input from INPUT.TXT and send the output to OUTPUT.TXT. Since
+"-V" is on the command line then intermediate results would be included in 
+the output file.
+
+Limitations
+
+The limitations of the general and ternary programs are similar but differ 
+from the binary program. This is due to a different technique used to store 
+the code words.
+
+The radix value "d" is limited to 62 by the display function. If a greater 
+value is needed, minor modifications could be made to put it into the
+thousands (uselessly large since the program cannot handle that many code 
+words).
+
+The general and ternary versions are limited by the amount of memory in the 
+PC to somewhere between 2000 and 3000 codewords. I've run tests at 2500 code
+words in which the probabilities were equal and had failures at 3000 under the
+same circumstances. If the probabilities vary greatly then the cumulative code
+word length will increase and cause memory overflow at a somewhat smaller 
+value.
+
+The binary version stores the code words in long integers so the maximum code 
+word length is limited to 32 bits but it requires less storage per word. Thus 
+it is capable of handling more than 4000 code words if the probabilities are
+fairly equal. However, a 34 word code can generate code words that are 33 bits 
+long so highly irregular probability distributions will overflow at much 
+smaller numbers.
+
+The computation time associated with the programs is relatively short. The 
+4000 code word binary example ran in under 10 minutes on 20MHz 80386 IBM AT 
+Clone. A 100 code word example runs in about 2 seconds (most of which is disk
+I/O). Any problems that are small enough to not overload memory run in a 
+fairly convenient time frame. The order of magnitude should be no worse than N 
+squared for worst case data. Results on test cases ran about N to the 1.5 
+power.
+
+The remainder of this document is not relevant to operating the program 
+properly but is designed to help someone trying to modify the code.
+
+Principal of Operation
+
+This program operates on basically the same principle that Huffman codes are
+generated by hand. The list of probabilities (ITEMs) are sorted (ascending 
+order) and then the two lowest ITEMs are replaced with their sum ITEM. Each 
+time this is performed a '0' is added to the code words associated with one 
+of the ITEMs and a '1' is added to the code words associated with the other 
+ITEM. The sum ITEM's code word list is the union of the two ITEMs used to 
+form it.
+
+Data Structures Used 
+
+These programs rely heavily on pointers (linked lists) and heap memory.
+If you are unfamiliar with linked lists and the heap then the following may 
+give you some chance of understanding this program:
+
+The Heap
+In an IBM PC the area of unused memory is sometimes referred to as the heap.
+The run time library of C++ (C also) offers a set of functions for allocating 
+and deallocating this memory during program execution. The "new" operator of
+C++ returns a pointer to a data area in the heap. The "delete" operator is 
+used to give memory back to the heap (so it can be used in later calls to new).
+
+Linked List
+A linked list is similar to an array in that it holds an ordered list of data.
+It differs from an array in that the memory associated with the items in the 
+list is not necessarily contiguous. Linked lists use data pointers to determine 
+where the next data item is. Each "node" of a linked list is a data structure 
+that has some data fields and at least one field which is a pointer to the 
+rest of the list. The list is accessed by a pointer to the first node in the 
+list.
+This has a number of interesting effects (with respect to arrays):
+
+	1) Traversing linked lists is slow (intermediate members must be accessed).
+	2) Inserting and Deleting items is fast (just change the value of some 
+			pointers). Arrays require shifting lots of data.
+	3) No intrinsic limit to the size of the data is imposed. Linked lists can
+			continue to grow until all memory is occupied
+	4) Two linked lists can easily be combined (point the end of one to the start
+			of the other).
+
+The last three items on the list are very important to the efficient operation 
+of these programs. 
+
+The two programs use almost the same data structure to perform their tasks 
+(the only difference is that the binary version uses a long integer to store
+code words rather than a linked list). The code uses four different 
+structures to perform its tasks:
+
+	CODEWORD: An array of this structure is created to store the input values.
+		There is one element for every code word in this array and its size and
+		order do not change throughout the program. However, one field of each 
+		of these structures is a pointer to a linked list (of NODE) representing
+		the code for this word. This code is initially empty but grows as the
+		program progresses.
+
+	NODE: Is an element in a linked list representing the code word for a given
+		word. Each element represents a single digit of the code. It has one 
+		field which is the value of the digit and the other field is a pointer 
+		to the rest of the code.
+
+	ITEM: A linked list of ITEM is the primary structure used to perform the 
+		Huffman algorithm. Each ITEM represents an element in the list of 
+		probabilities. Initially, there is one ITEM for every code word. 
+		ITEM's are combined every iteration until only one remains (and the 
+		codes are complete). One field of the ITEM structure is a pointer to 
+		a linked list of WORD. This linked list is used to keep track of which
+		words that ITEM represents. When ITEM's are combined, the linked 
+		lists of WORD are appended to one another and the probabilities are 
+		summed.
+
+	WORD: An element in a linked list of CODEWORD pointers. The WORD structure
+		contains a pointer into the CODEWORD array and a pointer to the rest of
+		list. This provides an alternate way to access the codewords through the
+		ITEM structure which is used to update the codes in the CODEWORD 
+		structure.
+
+The handout has a figure which demonstrates these relationships graphically.
+
+Description of General Huffman algorithm
+
+The general (d>2) algorithm is similar to the binary algorithm except that 
+more than 2 probabilities are combined each iteration. In all but the first
+loop, d ITEMs are combined. The first loop may combine fewer elements 
+depending on rounding effects. The formula:
+
+k=2+(n-2) mod (d-1)
+
+From Gallagher's book gives the number to be combined on the first iteration.
+When one ITEM remains then the codes are complete.
+
+C++ Extensions Used
+
+The language used for the program is Turbo C++. C++ is basically C with 
+a variety of additional goodies. Most of the additional things are for
+"object oriented" programing although their are a several significant 
+extensions that are merely convenient. Almost all legal operations in C will
+compile directly in C++.
+
+I will assume a knowledge of C and try to explain the C++ extensions used in 
+the code (the code is much more C than C++ since I'm just starting to learn 
+the C++ extensions myself):
+
+Comments:
+ C++ accepts comments that start with a "//" and end with the end of the line
+	Ex:
+
+	// This is a comment using a C++ extension
+	/* This is the equivalent in straight C */
+
+Dynamic Memory Allocation
+
+C++ uses the operators "new" and "delete" in place of the alloc and free 
+functions. The synctax of "new" is:
+
+  ptr=new datatype(initial_values);
+
+or
+
+  array_ptr=new datatype[number_of_items];
+
+The "new" operator is somewhat more convenient than alloc in that it allows
+you to initialize the data as it is created.
+
+Structures
+	Data structures are called "Classes" in C++ and can have some additional 
+ characteristics that are not found in C. The "struct" word is still used but 
+ is not required in most of the places that C requires it.
+	Ex:
+
+// C++
+struct NODE
+{
+	int data;
+	NODE *wordptr;
+};
+
+/* C */
+struct NODE
+{
+	int data;
+	struct NODE *wordptr;
+};
+
+or (this more accurately reflects the C++ code above)
+
+/* ANSI C Extension */
+typedef struct dummyname
+{
+	int data;
+	struct dummyname *wordptr;
+} NODE;
+
+The bottom example better reflects the C++ since the word "struct" does not
+have to be used in function prototypes, structure declarations, etc. In 
+addition, C++ can have functions that are automatically associated with 
+certain data structures (an "object" consists of a data structure and its 
+associated functions). In the Huffman programs I used some of these functions
+called "initializers." Initializers are automatically called to initialize 
+the fields of a structure when it is created. Example:
+
+struct WORD
+{
+	CODEWORD *theword;	// Pointer to a codeword whose code needs modification
+	WORD *next;					// Pointer to other codewords which need modification
+	WORD(CODEWORD *Iword) { theword=Iword; next=NULL; }
+};
+
+The last item in this structure is an initializer function. It is called 
+whenever a structure of this type is created. 
+For Example the line:
+
+wlist=new WORD(which);
+
+occurs in the program. In this line the "WORD" initializer is called with value
+"which". The "theword" field of the structure is initialized to the value of
+"which" and the "next" field is initialized to NULL.
+
+Another aspect of C++ is that functions do not have to have unique names if 
+the formal parameters (the types and number of parameters passed to them) 
+differ. The compiler will determine the proper function to call by looking at
+the values passed. The ITEM structure in the programs has two initializer's 
+but C++ determines which to use by the values passed.
+
+The most significant difference between C and C++ as far as these programs is
+concerned is the default I/O is very different. C++ overloades the binary 
+shift operators "<<" and ">>" so that they are used for input and output also.
+Examples:
+
+	printf("Unable to open input file [%s].",filename);					/* C */
+	cout << "Unable to open input file [" << filename << "].";	// C++
+
+	scanf("%s",filename); /* or */ gets(filename);  /* C */
+	cin >> filename;																// C++
+
+	// file I/O
+	FILE *infile;			/* C */
+	ifstream infile;	// C++
+
+	infile=fopen(filename,"r");	/* C */
+	infile.open(filename);			// C++
+
+The C++ output forms are somewhat more convenient in that you don't have to 
+include information about the types of the variables output in the format 
+strings (If you change the type of a variable I/O references throughout the 
+code don't have to be changed.). The input forms are much better behaved 
+than scanf.
+
+One additional extension offered by C++ is operator overloading. In C++ you 
+can assign functions for the different operators (+,-,/,etc) when they are 
+used with your defined data types. This is used in the programs with the 
+output operator "<<" of C++ as shown:
+
+ostream& operator << (ostream& s,CODEWORD *cword)
+{
+	CODE *cptr;
+	s << SETID() << cword->id << " ³ " << SETP(11) << cword->prob << " ³ ";
+	for (cptr=cword->code; cptr!=NULL; cptr=cptr->next)	
+		s << (char) (cptr->val + 0x30);
+	s << '\n';
+	return s;
+}
+
+This routine is automatically called whenever a "CODEWORD *" type is used with
+the "<<" operator. This example also demonstrates another extension to C++,
+call by reference. In C all parameters are passed by value. In C++ the '&' can
+be used to specify a call by reference. Also note that a reference variable 
+can be returned.
+
